@@ -11,6 +11,16 @@
 
 		<channels>
 			<channel id="channel1" typeId="sample-channel"/>
+			<channel id="channelwho" typeId="who-channel"/>
+			<channel id="channelwhere" typeId="where-channel"/>
+			<channel id="channelwhat" typeId="what-channel"/>
+			<channel id="channelwhen" typeId="when-channel"/>
+			<channel id="channelgeneral" typeId="general-channel"/>
+			<channel id="channelmagnetchoice" typeId="magnetchoice-channel"/>
+			<channel id="channelsemantic" typeId="semantic-channel"/>
+			<channel id="channelsemanticchoice" typeId="semanticchoice-channel"/>
+			<channel id="channeladd" typeId="add-channel"/>
+            <channel id="channelremove" typeId="remove-channel"/>
 		</channels>
 	</thing-type>
 
@@ -20,5 +30,118 @@
 		<label>Magnetpoetry Binding Channel</label>
 		<description>Sample channel for Magnetpoetry Binding</description>
 	</channel-type>
+	<channel-type id="who-channel">
+	   <item-type>String</item-type>
+        <label>Who</label>
+        <description>Magnets of Who category</description>
+        <category>Who</category>
+        <state readOnly="true"/>
+        <config-description>
+          <parameter name="WhoChannelFormat" type="text" required="true">
+              <label>Who Channel Format</label>
+              <description>Formatting of Who channel</description>
+              <default>No magnets</default>
+          </parameter>
+        </config-description>
+	</channel-type>
+	
+    <channel-type id="where-channel">
+       <item-type>String</item-type>
+        <label>Where</label>
+        <description>Magnets of Where category</description>
+        <category>Where</category>
+        <state readOnly="true"/>
+        <config-description>
+          <parameter name="WhereChannelFormat" type="text" required="true">
+              <label>Where Channel Format</label>
+              <description>Formatting of Where channel</description>
+              <default>No magnets</default>
+          </parameter>
+        </config-description>
+    </channel-type>	
+    
+    <channel-type id="what-channel">
+       <item-type>String</item-type>
+        <label>What</label>
+        <description>Magnets of What category</description>
+        <category>What</category>
+        <state readOnly="true"/>
+        <config-description>
+          <parameter name="WhatChannelFormat" type="text" required="true">
+              <label>What Channel Format</label>
+              <description>Formatting of What channel</description>
+              <default>No magnets</default>
+          </parameter>
+        </config-description>
+    </channel-type>
+    
+    <channel-type id="when-channel">
+       <item-type>String</item-type>
+        <label>When</label>
+        <description>Magnets of When category</description>
+        <category>When</category>
+        <state readOnly="true"/>
+        <config-description>
+          <parameter name="WhenChannelFormat" type="text" required="true">
+              <label>When Channel Format</label>
+              <description>Formatting of When channel</description>
+              <default>No magnets</default>
+          </parameter>
+        </config-description>
+    </channel-type>
+    
+    <channel-type id="general-channel">
+       <item-type>String</item-type>
+        <label>General</label>
+        <description>Magnets of General category</description>
+        <category>General</category>
+        <state readOnly="true"/>
+        <config-description>
+          <parameter name="GeneralChannelFormat" type="text" required="true">
+              <label>General Channel Format</label>
+              <description>Formatting of General channel</description>
+              <default>No magnets</default>
+          </parameter>
+        </config-description>
+    </channel-type>
+	
+	<channel-type id="magnetchoice-channel">
+        <item-type>String</item-type>
+        <label>Magnetchoice</label>
+        <description>Magnet poetry</description>
+        <category>Choice</category>
+        <state readOnly="false"/>
+    </channel-type>
+    
+    <channel-type id="semantic-channel">
+        <item-type>String</item-type>
+        <label>Semantic</label>
+        <description>Semantic evaluation of magnet poetry</description>
+        <category>Semantics</category>
+        <state readOnly="true"/>
+    </channel-type>
+    
+    <channel-type id="semanticchoice-channel">
+        <item-type>Number</item-type>
+        <label>Semantic number</label>
+        <description>Choose semantic number of diverse magnet poetry</description>
+        <category>Semanticnumber</category>
+        <state readOnly="false"/>
+    </channel-type>
+    
+    <channel-type id="add-channel">
+        <item-type>String</item-type>
+        <label>Add</label>
+        <description>Add Magnet</description>
+        <category>Add</category>
+        <state readOnly="false"/>
+    </channel-type>
 
+    <channel-type id="remove-channel">
+        <item-type>String</item-type>
+        <label>Remove</label>
+        <description>Remove Magnet</description>
+        <category>Remove</category>
+        <state readOnly="false"/>
+    </channel-type>
 </thing:thing-descriptions>

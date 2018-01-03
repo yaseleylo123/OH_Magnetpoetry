@@ -12,14 +12,21 @@
  */
 package org.openhab.binding.magnetpoetry.handler;
 
-import static org.openhab.binding.magnetpoetry.MagnetpoetryBindingConstants.*;
+import java.util.List;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.smarthome.core.library.types.StringType;
+import org.eclipse.smarthome.core.thing.Channel;
 import org.eclipse.smarthome.core.thing.ChannelUID;
 import org.eclipse.smarthome.core.thing.Thing;
 import org.eclipse.smarthome.core.thing.ThingStatus;
 import org.eclipse.smarthome.core.thing.binding.BaseThingHandler;
 import org.eclipse.smarthome.core.types.Command;
+import org.eclipse.smarthome.core.types.State;
+import org.openhab.binding.magnetpoetry.MagnetpoetryBindingConstants;
+import org.openhab.binding.magnetpoetry.elements.category.MpCategoryElement;
+import org.openhab.binding.magnetpoetry.elements.magnet.MpMagnet;
+import org.openhab.binding.magnetpoetry.provider.MagnetpoetryProviderImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,10 +36,12 @@ import org.slf4j.LoggerFactory;
  *
  * @author Yasemin Dogan - Initial contribution
  */
- @NonNullByDefault
+@NonNullByDefault
 public class MagnetpoetryHandler extends BaseThingHandler {
 
     private final Logger logger = LoggerFactory.getLogger(MagnetpoetryHandler.class);
+
+    private MagnetpoetryProviderImpl magnetpoetryProvider = new MagnetpoetryProviderImpl();
 
     public MagnetpoetryHandler(Thing thing) {
         super(thing);
@@ -40,7 +49,9 @@ public class MagnetpoetryHandler extends BaseThingHandler {
 
     @Override
     public void handleCommand(ChannelUID channelUID, Command command) {
-        if (channelUID.getId().equals(CHANNEL_1)) {
+        if (channelUID.getId().equals(MagnetpoetryBindingConstants.ADD_CHANNEL)) {
+            String[] split = command.toString().split("#");
+
             // TODO: handle command
 
             // Note: if communication with thing fails for some reason,
@@ -50,8 +61,24 @@ public class MagnetpoetryHandler extends BaseThingHandler {
         }
     }
 
+    private State parseCategoryData(List<MpMagnet> magnets) {
+        StringBuilder stringbuilder = new StringBuilder();
+        for (MpMagnet magnet : magnets) {
+            stringbuilder.append(magnet.getName());
+            stringbuilder.append("#");
+        }
+        String stringState = stringbuilder.toString();
+        return new StringType(stringState);
+    }
+
     @Override
     public void initialize() {
+        magnetpoetryProvider.init();
+        List<MpMagnet> whatMagnets = magnetpoetryProvider
+                .getMagnetsOfCategoryElement(MpCategoryElement.valueOf("WHAT"));
+        Channel whatChannel = getThing().getChannel(MagnetpoetryBindingConstants.WHAT_CHANNEL);
+        updateState(whatChannel.getUID(), parseCategoryData(whatMagnets));
+
         // TODO: Initialize the thing. If done set status to ONLINE to indicate proper working.
         // Long running initialization should be done asynchronously in background.
         updateStatus(ThingStatus.ONLINE);
