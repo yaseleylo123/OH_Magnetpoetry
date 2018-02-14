@@ -22,6 +22,7 @@
 			<channel id="channeladd" typeId="add-channel"/>
             <channel id="channelremove" typeId="remove-channel"/>
 		</channels>
+		
 	</thing-type>
 
 	<!-- Sample Channel Type -->

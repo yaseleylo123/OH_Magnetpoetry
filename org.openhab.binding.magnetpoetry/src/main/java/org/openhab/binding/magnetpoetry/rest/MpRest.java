@@ -21,6 +21,12 @@ public class MpRest {
 
     private JsonArray getJsonItems() {
 
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
         DefaultHttpClient httpClient = new DefaultHttpClient();
         HttpGet httpGet = new HttpGet("http://localhost:8080/rest/items?recursive=false");
         httpGet.addHeader("Accept", "application/json");

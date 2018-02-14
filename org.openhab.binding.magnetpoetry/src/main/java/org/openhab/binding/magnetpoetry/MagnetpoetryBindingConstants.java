@@ -63,10 +63,11 @@ public class MagnetpoetryBindingConstants {
 
     // List semantic related files
     public static final String SEMANTIC_STATEMENT_PROPERTIES = "home/leylo/openhab2-master/git/openhab2-addons/addons/binding/org.openhab.binding.magnetpoetry/files/semantic/semanticstatements.properties";
-    public static final String SEMANTIC_INTERNAL_STATEMENT_PROPERTIES = "/home/leylo/openhab2-master/git/openhab2-addons/addons/binding/org.openhab.binding.magnetpoetry/files/semantic/semanticInternStatements.properties";
+    public static final String SEMANTIC_INTERNAL_STATEMENT_PROPERTIES = "/home/leylo/openhab2-master/git/openhab2-addons/addons/binding/org.openhab.binding.magnetpoetry/files/semantic/semanticstatements.properties";
     public static final String SEMANTIC_COMPREHENSIVE_STATEMENT_PROPERTIES = "/home/leylo/openhab2-master/git/openhab2-addons/addons/binding/org.openhab.binding.magnetpoetry/files/semantic/semanticComprehensiveStatements.properties";
     public static final String SEMANTIC_COMPREHENSIVE_ELEMENTS_PROPERTIES = "/home/leylo/openhab2-master/git/openhab2-addons/addons/binding/org.openhab.binding.magnetpoetry/files/semantic/semanticComprehensiveElements.properties";
 
     // List OH Rest URIs
     public static final String REST_URI_ITEMS = "http://localhost:8080/rest/items";
+
 }

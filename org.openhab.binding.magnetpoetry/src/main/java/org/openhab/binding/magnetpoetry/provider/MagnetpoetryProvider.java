@@ -1,7 +1,5 @@
 package org.openhab.binding.magnetpoetry.provider;
 
-import java.util.List;
-
 import org.openhab.binding.magnetpoetry.elements.category.MpCategoryElement;
 import org.openhab.binding.magnetpoetry.elements.magnet.MpMagnet;
 
@@ -13,5 +11,5 @@ public interface MagnetpoetryProvider {
 
     public void removeMagnet(MpMagnet magnet, MpCategoryElement categoryname);
 
-    public void evaluate(List<MpMagnet> magnets);
+    public void evaluate(String[] words);
 }

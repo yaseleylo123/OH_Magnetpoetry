@@ -3,14 +3,14 @@ package org.openhab.binding.magnetpoetry.elements.magnet;
 import java.util.UUID;
 
 import org.openhab.binding.magnetpoetry.elements.MagnetpoetryElement;
-import org.openhab.binding.magnetpoetry.elements.semantic.MpSemantic;
+import org.openhab.binding.magnetpoetry.elements.semantic.MpSemanticSimple;
 
 public class MpMagnet implements MagnetpoetryElement {
 
     private String name;
     private UUID uuid;
 
-    private MpSemantic semantic;
+    private MpSemanticSimple semantic;
 
     public MpMagnet(String name) {
         this.name = name;
@@ -34,11 +34,11 @@ public class MpMagnet implements MagnetpoetryElement {
         this.name = name;
     }
 
-    public void setSemantic(MpSemantic semantic) {
+    public void setSemantic(MpSemanticSimple semantic) {
         this.semantic = semantic;
     }
 
-    public MpSemantic getSemantic() {
+    public MpSemanticSimple getSemantic() {
         return this.semantic;
     }
 

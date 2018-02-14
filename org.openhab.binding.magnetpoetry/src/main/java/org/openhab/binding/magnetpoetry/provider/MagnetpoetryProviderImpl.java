@@ -1,28 +1,44 @@
 package org.openhab.binding.magnetpoetry.provider;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.openhab.binding.magnetpoetry.MagnetpoetryBindingConstants;
 import org.openhab.binding.magnetpoetry.elements.category.MpCategory;
 import org.openhab.binding.magnetpoetry.elements.category.MpCategoryElement;
 import org.openhab.binding.magnetpoetry.elements.magnet.MpMagnet;
+import org.openhab.binding.magnetpoetry.elements.semantic.MpSemantic;
 import org.openhab.binding.magnetpoetry.elements.semantic.MpSemanticIdentifier;
+import org.openhab.binding.magnetpoetry.elements.semantic.MpSemanticSimple;
 import org.openhab.binding.magnetpoetry.rest.MpItem;
 import org.openhab.binding.magnetpoetry.rest.MpRest;
 import org.openhab.binding.magnetpoetry.util.MagnetpoetryUtil;
 
 public class MagnetpoetryProviderImpl implements MagnetpoetryProvider {
 
-    private List<MpCategory> categories = null;
+    private List<MpCategory> categories = null; // Aktuelle Kategorien, immer: wer,wo,wie,was,allgemein
     private MpRest restProvider = new MpRest();
+
+    // For Handler
+    private List<MpMagnet> choosenMagnets = null;
+    private List<MpSemantic> suggestedSemantics = null;
+    private MpSemantic choosenSemantic = null;
 
     @Override
     public void init() {
-        createCategories();
-        // Testing getItems
+        this.categories = createCategories();
         List<MpItem> items = new MpRest().getItems();
         initializeMagnets(items);
+    }
+
+    private List<MpCategory> createCategories() {
+        List<MpCategory> categories = new ArrayList<MpCategory>();
+        for (MpCategoryElement categoryname : MpCategoryElement.values()) {
+            MpCategory category = new MpCategory(categoryname);
+            categories.add(category);
+        }
+        return categories;
     }
 
     public List<MpCategory> getCategories() {
@@ -47,6 +63,12 @@ public class MagnetpoetryProviderImpl implements MagnetpoetryProvider {
         }
     }
 
+    public void addMagnet(String magnetname, MpCategoryElement categoryname, String file) {
+        MpMagnet magnet = new MpMagnet(magnetname);
+        // TODO handle file e.g PERSONNAME for semantic variables in magnet object
+        this.addMagnet(magnet, categoryname);
+    }
+
     @Override
     public void removeMagnet(MpMagnet magnet, MpCategoryElement categoryname) {
         for (MpCategory category : categories) {
@@ -57,17 +79,37 @@ public class MagnetpoetryProviderImpl implements MagnetpoetryProvider {
     }
 
     @Override
-    public void evaluate(List<MpMagnet> magnets) {
-        // TODO Auto-generated method stub
-
+    public void evaluate(String[] words) {
+        this.choosenMagnets = getMagnetsFromWords(words);
+        // TODO: search proper MpSemantic (Intern or Comprehensive) from given simple Semantic
+        List<MpSemanticSimple> simpleSemantics = new ArrayList<MpSemanticSimple>();
+        for (MpMagnet magnet : choosenMagnets) {
+            simpleSemantics.add(magnet.getSemantic());
+        }
+        this.suggestedSemantics = getSemanticBySimpleSemantics(simpleSemantics);
     }
 
-    private void createCategories() {
-        this.categories = new ArrayList<MpCategory>();
-        for (MpCategoryElement categoryname : MpCategoryElement.values()) {
-            MpCategory category = new MpCategory(categoryname);
-            categories.add(category);
+    private List<MpSemantic> getSemanticBySimpleSemantics(List<MpSemanticSimple> simpleSemantics) {
+        HashMap<String, String> semanticIdentifierStatement = MagnetpoetryUtil
+                .searchSemanticBySimpleSemantics(simpleSemantics);
+
+        // TODO: search in comprehensive and intern file for keys where IDs in values are there
+
+        return null;
+    }
+
+    private List<MpMagnet> getMagnetsFromWords(String[] words) {
+        List<MpMagnet> magnets = new ArrayList<MpMagnet>();
+        for (MpCategory category : this.categories) {
+            for (MpMagnet magnet : category.getMagnets()) {
+                for (String word : words) {
+                    if (word.equals(magnet.getName())) {
+                        magnets.add(magnet);
+                    }
+                }
+            }
         }
+        return magnets;
     }
 
     private void initializeMagnets(List<MpItem> items) {
@@ -109,6 +151,7 @@ public class MagnetpoetryProviderImpl implements MagnetpoetryProvider {
         createMagnets(ors, MpCategoryElement.GENERAL, MpSemanticIdentifier.SE_GENERAL_4);
         createMagnets(numbers, MpCategoryElement.GENERAL, MpSemanticIdentifier.SE_GENERAL_5);
         createMagnets(others, MpCategoryElement.GENERAL, MpSemanticIdentifier.SE_GENERAL_6);
+
     }
 
     private void createMagnets(List<String> data, MpCategoryElement categoryname,
@@ -118,11 +161,18 @@ public class MagnetpoetryProviderImpl implements MagnetpoetryProvider {
             if (categoryname.equals(category.getName())) {
                 for (String word : data) {
                     MpMagnet newMagnet = new MpMagnet(word);
+                    MpSemanticSimple newSemanticObject = new MpSemanticSimple(word, semanticIdentifier);
+                    newMagnet.setSemantic(newSemanticObject);
                     int index = categories.indexOf(category);
                     categories.get(index).addMagnet(newMagnet);
                 }
             }
         }
+    }
+
+    public void sendSemanticToRule(int semanticnumber) {
+        // TODO Auto-generated method stub
+
     }
 
 }

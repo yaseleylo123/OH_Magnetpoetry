@@ -1,41 +1,13 @@
 package org.openhab.binding.magnetpoetry.elements.semantic;
 
-import java.util.UUID;
+public interface MpSemantic {
 
-import org.openhab.binding.magnetpoetry.elements.MagnetpoetryElement;
+    public void setIdentifier(String identifier);
 
-public class MpSemantic implements MagnetpoetryElement {
+    public String getIdentifier();
 
-    private MpSemanticIdentifier identifier = null;
-    private UUID uuid = null;
-    private String statement = null;
+    public void setStatement(String statement);
 
-    @Override
-    public void setUUID(UUID uuid) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public UUID getUUID() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public void setIdentifier(MpSemanticIdentifier identifier) {
-        this.identifier = identifier;
-    }
-
-    public MpSemanticIdentifier getIdentifier() {
-        return this.identifier;
-    }
-
-    public void setStatement(String statement) {
-        this.statement = statement;
-    }
-
-    public String getStatement() {
-        return this.statement;
-    }
+    public String getStatement();
 
 }
